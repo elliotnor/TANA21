@@ -1,4 +1,4 @@
-function [xVals,iter] = newtonRaphson(f,fprime,x0,tol)
+function [xVals,iter] = steffensen(f,fprime,x0,tol)
 %%
 %  Implementation of the Newton-Raphson method to approximate 
 %  the root of a nonlinear function f(x)
