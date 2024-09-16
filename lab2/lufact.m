@@ -1,4 +1,5 @@
 function [L,U,P] = lufact(A)
+format short;
 %%
 %  Computes the LU factorization of the matrix A. The factorization is done
 %  in-place and then the L and U matrices are extracted at the end for
@@ -21,11 +22,17 @@ function [L,U,P] = lufact(A)
 %  Vectorized in-place LU factorization (with row pivoting) that keeps
 %  track of the total permutations by scrambleing the matrix P
    for j = 1:n-1
+
+       
 %%
 % Find the index of the largest pivot element in the current column
+    [maxVal, k] = max(abs(A(j:n, j)));
+    k = k + j - 1;
 
 %%
 % Swap the rows within the in-place array as well as the permutation matrix P
+    A([j, k], :) = A([k, j], :);
+    P([j, k], :) = P([k, j], :);
 
 
 %%
@@ -33,10 +40,11 @@ function [L,U,P] = lufact(A)
       i = j+1:n; % indices for the "active" matrix portion
       A(i,j) = A(i,j)/A(j,j);
       A(i,i) = A(i,i) - A(i,j)*A(j,i);
-%      A, return
+      %A, return
    end
 %%
 % Extract L and U from the in-place form
    U = triu(A);
    L = eye(n) + tril(A,-1);
 end
+
